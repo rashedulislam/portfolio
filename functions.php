@@ -1,43 +1,20 @@
 <?php
 
 if (!function_exists('mdsami_setup')) :
-  /**
-   * Sets up theme defaults and registers support for various WordPress features.
-   *
-   * Note that this function is hooked into the after_setup_theme hook, which
-   * runs before the init hook. The init hook is too late for some features, such
-   * as indicating support for post thumbnails.
-   */
+
   function mdsami_setup()
   {
-    /*
-		 * Make theme available for translation.
-		 * Translations can be filed in the /languages/ directory.
-		 * If you're building a theme based on Twenty Nineteen, use a find and replace
-		 * to change 'mdsami' to the name of your theme in all the template files.
-		 */
+
     load_theme_textdomain('mdsami', get_template_directory() . '/languages');
 
-    // Add default posts and comments RSS feed links to head.
+
     add_theme_support('automatic-feed-links');
 
-    /*
-		 * Let WordPress manage the document title.
-		 * By adding theme support, we declare that this theme does not use a
-		 * hard-coded <title> tag in the document head, and expect WordPress to
-		 * provide it for us.
-		 */
     add_theme_support('title-tag');
 
-    /*
-		 * Enable support for Post Thumbnails on posts and pages.
-		 *
-		 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
-		 */
     add_theme_support('post-thumbnails');
     set_post_thumbnail_size(1568, 9999);
 
-    // This theme uses wp_nav_menu() in two locations.
     register_nav_menus(
       array(
         'primary' => __('Primary Menu', 'mdsami'),
@@ -45,10 +22,6 @@ if (!function_exists('mdsami_setup')) :
       )
     );
 
-    /*
-		 * Switch default core markup for search form, comment form, and comments
-		 * to output valid HTML5.
-		 */
     add_theme_support(
       'html5',
       array(
@@ -62,11 +35,6 @@ if (!function_exists('mdsami_setup')) :
       )
     );
 
-    /**
-     * Add support for core custom logo.
-     *
-     * @link https://codex.wordpress.org/Theme_Logo
-     */
     add_theme_support(
       'custom-logo',
       array(
@@ -77,17 +45,13 @@ if (!function_exists('mdsami_setup')) :
       )
     );
 
-    // Add theme support for selective refresh for widgets.
     add_theme_support('customize-selective-refresh-widgets');
   }
 endif;
 add_action('after_setup_theme', 'mdsami_setup');
 
-/**
- * Register widget area.
- *
- * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
- */
+
+
 function mdsami_widgets_init()
 {
 
@@ -105,25 +69,15 @@ function mdsami_widgets_init()
 }
 add_action('widgets_init', 'mdsami_widgets_init');
 
-/**
- * Set the content width in pixels, based on the theme's design and stylesheet.
- *
- * Priority 0 to make it available to lower priority callbacks.
- *
- * @global int $content_width Content width.
- */
+
+
 function mdsami_content_width()
 {
-  // This variable is intended to be overruled from themes.
-  // Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
-  // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
   $GLOBALS['content_width'] = apply_filters('mdsami_content_width', 640);
 }
 add_action('after_setup_theme', 'mdsami_content_width', 0);
 
-/**
- * Enqueue scripts and styles.
- */
+
 
 function mdsami_assets()
 {
@@ -179,3 +133,136 @@ add_action('wp_enqueue_scripts', 'mdsami_assets');
 /**
  * WooCommerce Product Thumbnail
  **/
+
+
+function mdsami_custom_portfolio() {
+  $labels = array(
+      'name'                  => _x( 'Portfolio', 'mdsami' ),
+      'singular_name'         => _x( 'Portfolio', 'mdsami' ),
+      'menu_name'             => _x( 'Portfolio', 'mdsami' ),
+      'name_admin_bar'        => _x( 'Portfolio', 'mdsami' ),
+      'add_new'               => __( 'Add New Portfolio', 'mdsami' ),
+      'add_new_item'          => __( 'Add New Portfolio', 'mdsami' ),
+      'new_item'              => __( 'New Portfolio', 'mdsami' ),
+      'edit_item'             => __( 'Edit Portfolio', 'mdsami' ),
+      'view_item'             => __( 'View Portfolio', 'mdsami' ),
+      'all_items'             => __( 'All Portfolio', 'mdsami' ),
+      'search_items'          => __( 'Search Portfolios', 'mdsami' ),
+      'parent_item_colon'     => __( 'Parent Portfolios:', 'mdsami' ),
+      'not_found'             => __( 'No Portfolios found.', 'mdsami' ),
+      'not_found_in_trash'    => __( 'No Portfolios found in Trash.', 'mdsami' ),
+      'featured_image'        => _x( 'Portfolio Cover Image',  'mdsami' ),
+      'set_featured_image'    => _x( 'Set Portfolio image', 'mdsami' ),
+      'remove_featured_image' => _x( 'Remove Portfolio image', 'mdsami' ),
+      'use_featured_image'    => _x( 'Use as Portfolio image', 'mdsami' ),
+      'archives'              => _x( 'Portfolio archives', 'mdsami' ),
+      'insert_into_item'      => _x( 'Insert into Portfolio', 'mdsami' ),
+      'uploaded_to_this_item' => _x( 'Uploaded to this Portfolio', 'mdsami' ),
+      'filter_items_list'     => _x( 'Filter Portfolios list', 'mdsami' ),
+      'items_list_navigation' => _x( 'Portfolios list navigation', 'mdsami' ),
+      'items_list'            => _x( 'Portfolios list', 'mdsami' ),
+  );
+
+  $args = array(
+      'labels'             => $labels,
+      'public'             => true, 
+      'publicly_queryable' => true,
+      'show_ui'            => true,
+      'show_in_menu'       => true,
+      'query_var'          => true,
+      'rewrite'            => array( 'slug' => 'portfolio' ),
+      'capability_type'    => 'post',
+      'has_archive'        => true,
+      'hierarchical'       => false,
+      'menu_position'      => 5,
+  'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt' ),
+  //'taxonomies'         => array('category', 'post_tag'),
+  'exclude_from_search'=> false
+  );
+
+  register_post_type( 'portfolio', $args );
+}
+
+add_action( 'init', 'mdsami_custom_portfolio' );
+
+
+function mdsami_portfolio_taxonomies() {
+
+$labels = array(
+  'name'              => _x( 'Clients', 'mdsami' ),
+  'singular_name'     => _x( 'Client', 'mdsami' ),
+  'search_items'      => __( 'Search Client', 'mdsami' ),
+  'all_items'         => __( 'All Client', 'mdsami' ),
+  'parent_item'       => __( 'Parent Client', 'mdsami' ),
+  'parent_item_colon' => __( 'Parent Client:', 'mdsami' ),
+  'edit_item'         => __( 'Edit Client', 'mdsami' ),
+  'update_item'       => __( 'Update Client', 'mdsami' ),
+  'add_new_item'      => __( 'Add New Client', 'mdsami' ),
+  'new_item_name'     => __( 'New Client Name', 'mdsami' ),
+  'menu_name'         => __( 'Clients', 'mdsami' ),
+);
+
+$args = array(
+  'hierarchical'      => true,
+  'labels'            => $labels,
+  'show_ui'           => true,
+  'show_admin_column' => true,
+  'query_var'         => true,
+  'rewrite'           => array( 'slug' => 'clients' ),
+);
+
+register_taxonomy( 'clients', array( 'portfolio' ), $args );
+
+}
+
+add_action( 'init', 'mdsami_portfolio_taxonomies');
+
+
+function mdsami_testimonials() {
+  $labels = array(
+      'name'                  => _x( 'Testimonials', 'mdsami' ),
+      'singular_name'         => _x( 'Testimonial', 'mdsami' ),
+      'menu_name'             => _x( 'Testimonial', 'mdsami' ),
+      'name_admin_bar'        => _x( 'Testimonial', 'mdsami' ),
+      'add_new'               => __( 'Add New Testimonial', 'mdsami' ),
+      'add_new_item'          => __( 'Add New Testimonial', 'mdsami' ),
+      'new_item'              => __( 'New Testimonial', 'mdsami' ),
+      'edit_item'             => __( 'Edit Testimonial', 'mdsami' ),
+      'view_item'             => __( 'View Testimonial', 'mdsami' ),
+      'all_items'             => __( 'All Testimonial', 'mdsami' ),
+      'search_items'          => __( 'Search Testimonials', 'mdsami' ),
+      'parent_item_colon'     => __( 'Parent Testimonials:', 'mdsami' ),
+      'not_found'             => __( 'No Testimonials found.', 'mdsami' ),
+      'not_found_in_trash'    => __( 'No Testimonials found in Trash.', 'mdsami' ),
+      'featured_image'        => _x( 'Testimonial Cover Image',  'mdsami' ),
+      'set_featured_image'    => _x( 'Set Testimonial image', 'mdsami' ),
+      'remove_featured_image' => _x( 'Remove Testimonial image', 'mdsami' ),
+      'use_featured_image'    => _x( 'Use as Testimonial image', 'mdsami' ),
+      'archives'              => _x( 'Testimonial archives', 'mdsami' ),
+      'insert_into_item'      => _x( 'Insert into Testimonial', 'mdsami' ),
+      'uploaded_to_this_item' => _x( 'Uploaded to this Testimonial', 'mdsami' ),
+      'filter_items_list'     => _x( 'Filter Testimonials list', 'mdsami' ),
+      'items_list_navigation' => _x( 'Testimonials list navigation', 'mdsami' ),
+      'items_list'            => _x( 'Testimonials list', 'mdsami' ),
+  );
+
+  $args = array(
+      'labels'             => $labels,
+      'public'             => true, 
+      'publicly_queryable' => true,
+      'show_ui'            => true,
+      'show_in_menu'       => true,
+      'query_var'          => true,
+      'rewrite'            => array( 'slug' => 'testimonial' ),
+      'capability_type'    => 'post',
+      'has_archive'        => true,
+      'hierarchical'       => false,
+      'menu_position'      => 5,
+  'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'custom-fields' ),
+  //'taxonomies'         => array('category', 'post_tag'),
+  'exclude_from_search'=> false
+  );
+
+  register_post_type( 'testimonial', $args );
+}
+add_action( 'init', 'mdsami_testimonials' );

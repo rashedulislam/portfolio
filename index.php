@@ -217,102 +217,54 @@
             <div class="container">
                 <h2 class="section-title font-weight-bold mb-5">Featured Projects</h2>
                 <div class="row">
+                <?php 
+
+                    $args = array(
+                        'post_type' => 'portfolio',
+                        'showposts' => 4,
+                    );
+                    // the query
+                    $the_query = new WP_Query( $args ); ?>
+                    
+                    <?php if ( $the_query->have_posts() ) : ?>
+                        <?php while ( $the_query->have_posts() ) : $the_query->the_post();?>
+
                     <div class="col-md-6 mb-5">
                         <div class="card project-card">
                             <div class="row no-gutters">
                                 <div class="col-lg-4 card-img-holder">
-                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/project/project-1.jpg" class="card-img" alt="image">
+                                    <img src="<?php echo get_the_post_thumbnail_url();?>" class="card-img" alt="image">
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="card-body">
-                                        <h5 class="card-title"><a href="/project" class="theme-link">Project Heading</a></h5>
-                                        <p class="card-text">Project intro lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes.</p>
-                                        <p class="card-text"><small class="text-muted">Client: Google</small></p>
+                                        <h5 class="card-title"><a href="<?php echo get_the_permalink();?>" class="theme-link"><?php the_title();?></a></h5>
+                                        <p class="card-text"><?php the_content(); ?></p>
+                                        <p class="card-text"><small class="text-muted">Client: 
+                                        <?php  $term_lists = wp_get_post_terms($post->ID, 'clients');
+                        foreach ($term_lists as $term):
+                            echo $term->slug.' ';
+                        endforeach; ?></small></p>
                                     </div>
                                 </div>
                             </div>
                             <div class="link-mask">
-                                <a class="link-mask-link" href="/project"></a>
+                                <a class="link-mask-link" href="<?php echo get_the_permalink();?>"></a>
                                 <div class="link-mask-text">
-                                    <a class="btn btn-secondary" href="/project">
+                                    <a class="btn btn-secondary" href="<?php echo get_the_permalink();?>">
                                         <i class="fas fa-eye mr-2"></i>View Case Study
                                     </a>
                                 </div>
                             </div><!--//link-mask-->
                         </div><!--//card-->
                     </div><!--//col-->
-                    <div class="col-md-6 mb-5"> 
-                        <div class="card project-card">
-                            <div class="row no-gutters">
-                                <div class="col-lg-4 card-img-holder">
-                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/project/project-2.jpg" class="card-img" alt="image">
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><a href="/project" class="theme-link">Project Heading</a></h5>
-                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
-                                        <p class="card-text"><small class="text-muted">Client: Dropbox</small></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="link-mask">
-                                <a class="link-mask-link" href="/project"></a>
-                                <div class="link-mask-text">
-                                    <a class="btn btn-secondary" href="/project">
-                                        <i class="fas fa-eye mr-2"></i>View Case Study
-                                    </a>
-                                </div>
-                            </div><!--//link-mask-->
-                        </div><!--//card-->
-                    </div><!--//col-->
-                    <div class="col-md-6 mb-5">
-                        <div class="card project-card">
-                            <div class="row no-gutters">
-                                <div class="col-lg-4 card-img-holder">
-                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/project/project-3.jpg" class="card-img" alt="image">
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><a href="project.html" class="theme-link">Project Heading</a></h5>
-                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
-                                        <p class="card-text"><small class="text-muted">Client: Google</small></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="link-mask">
-                                <a class="link-mask-link" href="project.html"></a>
-                                <div class="link-mask-text">
-                                    <a class="btn btn-secondary" href="project.html">
-                                        <i class="fas fa-eye mr-2"></i>View Case Study
-                                    </a>
-                                </div>
-                            </div><!--//link-mask-->
-                        </div><!--//card-->
-                    </div><!--//col-->
-                    <div class="col-md-6 mb-5">
-                        <div class="card project-card">
-                            <div class="row no-gutters">
-                                <div class="col-lg-4 card-img-holder">
-                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/project/project-4.jpg" class="card-img" alt="image">
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><a href="project.html" class="theme-link">Project Heading</a></h5>
-                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
-                                        <p class="card-text"><small class="text-muted">Client: Uber</small></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="link-mask">
-                                <a class="link-mask-link" href="project.html"></a>
-                                <div class="link-mask-text">
-                                    <a class="btn btn-secondary" href="project.html">
-                                        <i class="fas fa-eye mr-2"></i>View Case Study
-                                    </a>
-                                </div>
-                            </div><!--//link-mask-->
-                        </div><!--//card-->
-                    </div><!--//col-->
+
+                    <?php endwhile; ?>
+                        <?php wp_reset_postdata(); ?>
+                    
+                    <?php else : ?>
+                        <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+                    <?php endif; ?>
+
                 </div><!--//row-->
                 <div class="text-center py-3"><a href="portfolio" class="btn btn-primary"><i class="fas fa-arrow-alt-circle-right mr-2"></i>View Portfolio</a></div>
                 
